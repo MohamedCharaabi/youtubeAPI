@@ -1,3 +1,4 @@
+{% extends "material/base.html" %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,6 +8,45 @@
   </head>
   <body>
 
-    REfdgpks
+    {% block content %}
+      <nav class="purple">
+        <div class="nav-wrapper">
+        
+        </div>
+      </nav>
+
+      <div>
+        <h1>Audios</h1>
+        <table border="1">
+          {% for a in audio%}
+          <tr>
+            <td>{{ a["ext"] }}</td>
+            <td>
+              <a href="{{a ["url"] }}"> <button>Download</button></a>
+            </td>
+          </tr>
+    
+          {% endfor %}
+        </table>
+    
+        <h1>Videos</h1>
+        <table border="1">
+          {% for a in video %}
+          <tr>
+            <td>{{ a["ext"] }}</td>
+            <td>{{ a["height"] }}p</td>
+            <td>
+              <a href="{{a ["url"] }}"> <button>Download</button></a>
+            </td>
+          </tr>
+    
+          {% endfor %}
+        </table>
+      </div>
+    {% endblock %}
+
+   
+
+
   </body>
 </html>
