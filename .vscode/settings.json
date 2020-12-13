@@ -30,5 +30,6 @@
         "venv.bak{,/**}",
         ".vscode{,/**}"
     ],
-    "appService.deploySubpath": "."
+    "appService.deploySubpath": ".",
+    "appService.defaultWebAppToDeploy": "/subscriptions/e7b51e90-50cd-4f8e-a2b0-b430d7686e10/resourceGroups/webapi/providers/Microsoft.Web/sites/mediadown"
 }
