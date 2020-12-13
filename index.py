@@ -2,8 +2,10 @@ from flask import Flask, jsonify, request, render_template
 import youtube_dl
 from flask_material import Material
 
-
 app = Flask(__name__)
+app.static_folder = 'static'
+Material(app)
+
 
 ydl_opts = {
     'format': 'bestaudio/best',
@@ -36,8 +38,10 @@ def form(url):
     #      print('the url =>', urls[0])
     #      c = urls[0]
         mp4 = [x for x in urls if x["ext"] == "mp4"]
-        mp4Quality = ["395", "396", "397", "398", "399", "134", "137", "22", "18"]
+        mp4Quality = ["395", "396", "397", "398",
+                      "399", "134", "137", "22", "18"]
         mp3Quality = ["394", "140", "139"]
+        formatNote = ["144p", "360p", "480p", "720p", "1080p"]
 
         for z in urls:
             a = z["format_id"]
@@ -47,8 +51,8 @@ def form(url):
             if a in mp4Quality:
                 videoformat.append(z)
 
-    return jsonify({"data": {"title": title, "video": videoformat, "audio": audioFormat}})
-
+    return jsonify({"data": {"title": title, "mp4": videoformat, "mp3": audioFormat}})
+    # return jsonify({"data": urls})
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -86,13 +90,34 @@ def facebook():
     return render_template('form.html')
 
 
-
-
-
-# @app.route('/')
-# def index():
-#    return render_template("index.html")
-
+# @app.route("/down/try/<string:video_url>", methods=['GET', 'POST'])
+# def download_file(video_url):
+#     video_info = youtube_dl.YoutubeDL().extract_info(
+#         url='https://www.youtube.com/watch?v=JaO6fPA99Hg&t=1378s', download=False
+#     )
+#     filename = f"{video_info['title']}.mp3"
+#     ydl_opts = {
+#         'format': 'bestaudio/best',
+#         'keepvideo': False,
+#         'outtmpl': filename,
+#         'postprocessors': [{
+#             'key': 'FFmpegExtractAudio',
+#             'preferredcodec': 'mp3',
+#             'preferredquality': '192',
+#         }],
+#     }
+#     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+#         info_dict = ydl.extract_info(
+#             'https://www.youtube.com/watch?v=JaO6fPA99Hg&t=1378s', download=False)
+#         video_title = info_dict.get('title', None)
+#     path = f'C:\\{video_title}.mp3'
+#     ydl_opts.update({'outtmpl': path})
+#     try:
+#         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+#             ydl.download([video_url])
+#     except:
+#         return jsonify({"data": "ERROE"})
+#     return jsonify({"data": video_title})
 if __name__ == '__main__':
-    app.debug = True
-    app.run()
+
+    app.run(debug=True)
